@@ -1,0 +1,26 @@
+{
+  "name": "MERN_Authentication",
+  "version": "1.0.0",
+  "description": "Practicing, making a Log in &amp; Registration app with MERN",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sunnuke/MERN_Authentication.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sunnuke/MERN_Authentication/issues"
+  },
+  "homepage": "https://github.com/Sunnuke/MERN_Authentication#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "socket.io": "^3.1.0"
+  }
+}
