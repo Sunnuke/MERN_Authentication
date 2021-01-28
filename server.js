@@ -3,6 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const socket = require("socket.io");
 
+require('dotenv').config();
+const myFirstSecret = process.env.FIRST_SECRET_KEY;
+
 // Set Express to a variable (app), and set the selected port to a variable(port), this part is Optional.
 const app = express();
 const port = 8000;
