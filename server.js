@@ -4,7 +4,14 @@ const cors = require("cors");
 const socket = require("socket.io");
 
 require('dotenv').config();
+const jwt = require("jsonwebtoken");
 const myFirstSecret = process.env.FIRST_SECRET_KEY;
+
+const payload = {
+    id: user._id
+};
+
+const userToken = jwt.sign(payload, myFirstSecret);
 
 // Set Express to a variable (app), and set the selected port to a variable(port), this part is Optional.
 const app = express();
