@@ -3,15 +3,18 @@ const express = require("express");
 const cors = require("cors");
 const socket = require("socket.io");
 
+// Import dotenv and setup  jwt
 require('dotenv').config();
 const jwt = require("jsonwebtoken");
 const myFirstSecret = process.env.FIRST_SECRET_KEY;
-
 const payload = {
     id: user._id
 };
-
 const userToken = jwt.sign(payload, myFirstSecret);
+
+// Imported Cookie Parser
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 // Set Express to a variable (app), and set the selected port to a variable(port), this part is Optional.
 const app = express();
@@ -21,7 +24,8 @@ const port = 8000;
 require("./server/config/mongoose.config");
 
 // Use "app.use()" with cors(), and express: .json() and .urlencoded({extended: true})
-app.use(cors());
+// app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'})); // (^With cookie-Parser update^)
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
