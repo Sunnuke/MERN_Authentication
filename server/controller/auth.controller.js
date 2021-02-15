@@ -1,14 +1,14 @@
-const { User } = require("../models/User.model");
+const { User } = require("../models/auth.model");
 const jwt = require("jsonwebtoken")
 
-index: (request, response) => {
+module.exports.index = (request, response) => {
     response.json({
         message: "Connected!"
     });
 }
 
 // ES7 Form : async/await
-register: (req, res) => {
+module.exports.register = (req, res) => {
     User.create(req.body)
         .then(user => {
             const userToken = jwt.sign({
@@ -25,7 +25,7 @@ register: (req, res) => {
 }
 
 // ES7 Form : async/await
-login: async(req, res) => {
+module.exports.login = async(req, res) => {
         const user = await User.findOne({ email: req.body.email });
 
         if(user === null) {
@@ -54,7 +54,7 @@ login: async(req, res) => {
             .json({ msg: "success!" });
     }
 
-logout: (req, res) => {
+module.exports.logout = (req, res) => {
     res.clearCookie('usertoken');
     res.sendStatus(200);
 }
