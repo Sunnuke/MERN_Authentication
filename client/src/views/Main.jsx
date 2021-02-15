@@ -12,6 +12,7 @@ export default () => {
     const [ load, setLoad ] = useState(false);
     const [ errors, setErrors ] = useState(false);
     const [ login, setLogin ] = useState(false);
+    const [ log, setLog ] = useState(false);
 
     if (login) {
         useEffect(()=>{
@@ -76,14 +77,18 @@ export default () => {
             <h1>Connection status: {message}</h1>
             <h2> Logged In Status: {
                 login ?
-                "No One!" :
-                user.firstName, user.lastName
+                (user.firstName, user.lastName) :
+                "No One!"
             } </h2>
-            
+            <button onClick={ e => {setLog(!log)} }>Click to {
+                    log ? 
+                    "Register" :
+                    "Login"
+                }</button>
             {
-                login ?
-                <Form logged={login} submitInput={createUser} /> :
-                <Form logged={login} submitInput={getUser} />
+                log ?
+                <Form logged={log} submitInput={getUser} /> :
+                <Form logged={log} submitInput={createUser} />
             }
             {
                 load ?
