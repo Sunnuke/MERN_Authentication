@@ -1,11 +1,13 @@
 import React from 'react';
 import Router from '@reach/router';
-import './App.css';
+import Main from './views/Main';
 
 function App() {
   return (
     <div className="App">
-      
+      <Router>
+        <Main path="/" />
+      </Router>
     </div>
   );
 }
