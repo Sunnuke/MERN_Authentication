@@ -7,8 +7,8 @@ module.exports = (app) => {
     // app.get("/api/users", authenticate, Users.getAll);
 
 
-    // // Connection Status
-    // app.get("/api", EXAMPLE_Controller.index);
+    // Connection Status
+    app.get("/api", Users.index);
     
     // // Create
     // app.post("/api/EXAMPLE/new", EXAMPLE_Controller.create_EXAMPLE);
