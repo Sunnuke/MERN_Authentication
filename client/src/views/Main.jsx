@@ -36,25 +36,27 @@ export default () => {
         console.log("Creating User:");
         console.log(user);
         const errorArr = []; // Define a temp error array to push the messages in
+
         // Validating object before sending to server
-        // if (user.firstName == "") {
-        //     errorArr.push("Must enter first name!");
-        // }
-        // if (user.lastName == "") {
-        //     errorArr.push("Must enter last name!");
-        // }
-        // if (user.email == "") {
-        //     errorArr.push("Must enter email!");
-        // }
-        // if (user.password == "") {
-        //     errorArr.push("Must enter password!");
-        // }
-        // if (user.confirmPassword == "") {
-        //     errorArr.push("Did not confirm password!");
-        // }
-        // if (user.confirmPassword !== user.password) {
-        //     errorArr.push("Passwords Must Match!");
-        // }
+        if (user.firstName == "") {
+            errorArr.push("Must enter first name!");
+        }
+        if (user.lastName == "") {
+            errorArr.push("Must enter last name!");
+        }
+        if (user.email == "") {
+            errorArr.push("Must enter email!");
+        }
+        if (user.password == "") {
+            errorArr.push("Must enter password!");
+        }
+        if (user.confirmPassword == "") {
+            errorArr.push("Did not confirm password!");
+        }
+        if (user.confirmPassword !== user.password) {
+            errorArr.push("Passwords Must Match!");
+        }
+        
         // Return if any errors
         if (errorArr.length > 0) {
             // Set Errors
@@ -141,7 +143,10 @@ export default () => {
             {
                 inputForm ?
                 <>
-                    <button onClick={ e => {setLog(!log)} }>Click to {
+                    <button onClick={ e => {
+                        setLog(!log)
+                        setErrors([]);
+                        } }>Click to {
                             log ? 
                             "Register" :
                             "Login"
