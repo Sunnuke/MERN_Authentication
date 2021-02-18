@@ -10,7 +10,11 @@ export default (props) => {
 
     const Process = (e) => {
         e.preventDefault();
-        submitInput({ firstName, lastName, email, password, confirmPassword });
+        { 
+            logged ?
+            submitInput({ email, password, confirmPassword }) :
+            submitInput({ firstName, lastName, email, password, confirmPassword })
+        }
     }
 
     return(
@@ -46,12 +50,18 @@ export default (props) => {
                 value={password}
                 onChange={ e => { setPassword(e.target.value) } } /><br/>
                 
-                <label>Confirm Password:</label>
-                <input type="text" 
-                name="confirmPassword"
-                value={confirmPassword}
-                onChange={ e => { setConfirmPassword(e.target.value) } } /><br/>
-                
+                { 
+                    logged ?
+                    "" :
+                    <>
+                        <label>Confirm Password:</label>
+                        <input type="text" 
+                        name="confirmPassword"
+                        value={confirmPassword}
+                        onChange={ e => { setConfirmPassword(e.target.value) } } /><br/>
+                    </>
+                }
+
                 <input type="submit" />
             </form>
         </div>
