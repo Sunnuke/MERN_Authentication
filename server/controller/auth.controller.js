@@ -10,19 +10,25 @@ module.exports.index = (request, response) => {
 
 // ES7 Form : async/await
 module.exports.register = (req, res) => {
+    console.log("#############");
+    console.log(req.body);
+    console.log("#############");
     User.create(req.body)
         .then(user => {
+            console.log("User:");
+            console.log(user);
             const userToken = jwt.sign({
                 id: user._id
             }, process.env.SECRET_KEY);
-
+            console.log("UserToken:");
+            console.log(userToken);
             res
-                .cookie("usertoken", userToken, secret, {
+                .cookie("usertoken", userToken, {
                     httpOnly: true
                 })
                 .json({ msg: "success!", user: user });
         })
-        .catch(err => res.json(err));
+        .catch(err => res.status(400).json(err));
 }
 
 // ES7 Form : async/await

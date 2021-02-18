@@ -35,16 +35,46 @@ export default () => {
     const createUser = (user) => {
         console.log("Creating User:");
         console.log(user);
-        axios.post("http://localhost:8000/api/register", user)
+        const errorArr = []; // Define a temp error array to push the messages in
+        // Validating object before sending to server
+        // if (user.firstName == "") {
+        //     errorArr.push("Must enter first name!");
+        // }
+        // if (user.lastName == "") {
+        //     errorArr.push("Must enter last name!");
+        // }
+        // if (user.email == "") {
+        //     errorArr.push("Must enter email!");
+        // }
+        // if (user.password == "") {
+        //     errorArr.push("Must enter password!");
+        // }
+        // if (user.confirmPassword == "") {
+        //     errorArr.push("Did not confirm password!");
+        // }
+        // if (user.confirmPassword !== user.password) {
+        //     errorArr.push("Passwords Must Match!");
+        // }
+        // Return if any errors
+        if (errorArr.length > 0) {
+            // Set Errors
+            setErrors(errorArr);
+            return;
+        }
+        axios.post("http://localhost:8000/api/register", user, { withCredentials: true })
             .then(res => {
                 console.log("Post Response:");
                 console.log(res);
+                setUser(res.data);
                 setLogin(true);
-                setUser(user);
+                setErrors([]);
+                setInputForm(!inputForm)
                 setUsers([...users, user]);
                 navigate("/");
             })
             .catch(err => {
+                console.log("F HERE");
+                console.log(err.response.data.errors);
                 const errorResponse = err.response.data.errors; // Get the errors from err.response.data
                 const errorArr = []; // Define a temp error array to push the messages in
                 for (const key of Object.keys(errorResponse)) { // Loop through all errors and get the messages
@@ -122,9 +152,9 @@ export default () => {
                         <Form logged={log} submitInput={createUser} />
                     }
                     {
-                        errors.map(error => {
+                        errors.map((error, i) => {
                             return(
-                                <p style={{color: "red"}}>{error}</p>
+                                <p key={i} style={{color: "red"}}>{error}</p>
                             )
                         })
                     }
