@@ -70,6 +70,13 @@ module.exports.logout = (req, res) => {
     res.sendStatus(200);
 }
 
+module.exports.getAll = (req, res) => {
+    console.log(req);
+    User.find({})
+        .then(user => res.json(user))
+        .catch(err => res.status(400).json(err));
+}
+
 // module.exports.register = (request, response) => {
 //     User.create(req.body)
 //     .then(user => {
