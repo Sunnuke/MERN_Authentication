@@ -22,6 +22,8 @@ export default () => {
         useEffect(()=>{
             axios.get('http://localhost:8000/api/users', { withCredentials: true })
                 .then(res=>{
+                    console.log("Getting All Response:");
+                    console.log(res);
                     setUsers(res.data);
                     setLoaded(true);
                 });
@@ -167,7 +169,11 @@ export default () => {
                 ''
             }
             <hr/>
-            {/* {loaded && <ItemList EXAMPLEs={EXAMPLEs} removingDOM={removingDOM}/>} */}
+            {/* {
+                loaded ?
+                <ItemList users={users} removingDOM={removingDOM}/> :
+                'Loading users... (must login to view list)'
+            } */}
         </>
     )
 }

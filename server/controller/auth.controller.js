@@ -56,7 +56,8 @@ module.exports.login = async(req, res) => {
     const userToken = jwt.sign({
         id: user._id
     }, process.env.SECRET_KEY);
-
+    console.log("UserToken:");
+    console.log(userToken);
     // note: chained calls to cookie and json
     res
         .cookie("usertoken", userToken, {
@@ -70,11 +71,17 @@ module.exports.logout = (req, res) => {
     res.sendStatus(200);
 }
 
-module.exports.getAll = (req, res) => {
-    console.log(req);
-    User.find({})
-        .then(user => res.json(user))
-        .catch(err => res.status(400).json(err));
+module.exports.getAll = async(req, res) => {
+    console.log("###   GET   ALL   #####################################################################################################################################################################################");
+    console.log(req.cookies.usertoken);
+    console.log("###   GET   ALL   #####################################################################################################################################################################################");
+    const userToken = req.cookies.usertoken;
+    if (userToken === null) {
+        res.status(400).json({ msg: "Not logged in!" });
+    }
+    const users = await User.find({});
+    
+    res.json(users);
 }
 
 // module.exports.register = (request, response) => {
