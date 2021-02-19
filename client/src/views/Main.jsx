@@ -126,6 +126,19 @@ export default () => {
             });
     }
 
+    const loggingOut = () => {
+        axios.get("http://localhost:8000/api/logout")
+            .then(res => {
+                console.log("Logging Out:");
+                console.log(res);
+                setUser({});
+                setLogin(false);
+                setErrors([]);
+                setInputForm(!inputForm)
+                navigate("/");
+            })
+    }
+
     const removingDOM = (id) => {
         setUsers(users.filter(user => user._id !== id));
     }
@@ -140,7 +153,10 @@ export default () => {
             } </h2>
             {
                 login ?
-                <p style={{color: "green"}}>Success!</p> :
+                <>
+                    <p style={{color: "green"}}>Success!</p>
+                    <button onClick={ e => {loggingOut} }>Log Out</button>
+                </> :
                 ''
             }
             {
