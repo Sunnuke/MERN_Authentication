@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { navigate } from "@reach/router";
 import Form from "../components/Form";
-// import ItemList from "../components/ItemList";
+import ItemList from "../components/ItemList";
 
 export default () => {
     const [message, setMessage] = useState("Connecting...");
@@ -23,9 +23,10 @@ export default () => {
             axios.get('http://localhost:8000/api/users', { withCredentials: true })
                 .then(res=>{
                     console.log("Getting All Response:");
-                    console.log(res);
+                    console.log(res.data);
                     setUsers(res.data);
                     setLoaded(true);
+                    navigate("/");
                 });
         },[])
     // }
@@ -40,19 +41,19 @@ export default () => {
         const errorArr = []; // Define a temp error array to push the messages in
 
         // Validating object before sending to server
-        if (user.firstName == "") {
+        if (user.firstName === "") {
             errorArr.push("Must enter first name!");
         }
-        if (user.lastName == "") {
+        if (user.lastName === "") {
             errorArr.push("Must enter last name!");
         }
-        if (user.email == "") {
+        if (user.email === "") {
             errorArr.push("Must enter email!");
         }
-        if (user.password == "") {
+        if (user.password === "") {
             errorArr.push("Must enter password!");
         }
-        if (user.confirmPassword == "") {
+        if (user.confirmPassword === "") {
             errorArr.push("Did not confirm password!");
         }
         if (user.confirmPassword !== user.password) {
@@ -95,10 +96,10 @@ export default () => {
         console.log(user);
         const errorArr = []; // Define a temp error array to push the messages in
         // Validating object before sending to server
-        if (user.email == "") {
+        if (user.email === "") {
             errorArr.push("No email was entered!");
         }
-        if (user.password == "") {
+        if (user.password === "") {
             errorArr.push("No password was entered!");
         }
         // Return if any errors
@@ -169,11 +170,11 @@ export default () => {
                 ''
             }
             <hr/>
-            {/* {
+            {
                 loaded ?
-                <ItemList users={users} removingDOM={removingDOM}/> :
+                <ItemList items={users} removingDOM={removingDOM}/> :
                 'Loading users... (must login to view list)'
-            } */}
+            }
         </>
     )
 }
