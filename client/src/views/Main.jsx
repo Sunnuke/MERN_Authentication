@@ -127,14 +127,14 @@ export default () => {
     }
 
     const loggingOut = () => {
+        setUser({});
+        setLogin(false);
+        setErrors([]);
+        setInputForm(!inputForm)
         axios.get("http://localhost:8000/api/logout")
             .then(res => {
                 console.log("Logging Out:");
                 console.log(res);
-                setUser({});
-                setLogin(false);
-                setErrors([]);
-                setInputForm(!inputForm)
                 navigate("/");
             })
     }
@@ -155,7 +155,7 @@ export default () => {
                 login ?
                 <>
                     <p style={{color: "green"}}>Success!</p>
-                    <button onClick={ e => {loggingOut} }>Log Out</button>
+                    <button onClick={ e => {loggingOut()} }>Log Out</button>
                 </> :
                 ''
             }
