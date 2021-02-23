@@ -10,9 +10,6 @@ module.exports.index = (request, response) => {
 
 // ES7 Form : async/await
 module.exports.register = (req, res) => {
-    console.log("#############");
-    console.log(req.body);
-    console.log("#############");
     User.create(req.body)
         .then(user => {
             console.log("User:");
@@ -20,8 +17,6 @@ module.exports.register = (req, res) => {
             const userToken = jwt.sign({
                 id: user._id
             }, process.env.SECRET_KEY);
-            console.log("UserToken:");
-            console.log(userToken);
             res
                 .cookie("usertoken", userToken, {
                     httpOnly: true
@@ -33,12 +28,8 @@ module.exports.register = (req, res) => {
 
 // ES7 Form : async/await
 module.exports.login = async(req, res) => {
-    console.log("#############");
-    console.log(req.body);
-    console.log("#############");
     const user = await User.findOne({ email: req.body.email });
-    console.log("User:");
-    console.log(user);
+
     if(user === null) {
         // if email not found in users collection
         return res.sendStatus(400);
@@ -56,8 +47,6 @@ module.exports.login = async(req, res) => {
     const userToken = jwt.sign({
         id: user._id
     }, process.env.SECRET_KEY);
-    console.log("UserToken:");
-    console.log(userToken);
     // note: chained calls to cookie and json
     res
         .cookie("usertoken", userToken, {
@@ -72,9 +61,6 @@ module.exports.logout = (req, res) => {
 }
 
 module.exports.getAll = async(req, res) => {
-    console.log("###   GET   ALL   #####################################################################################################################################################################################");
-    console.log(req.cookies.usertoken);
-    console.log("###   GET   ALL   #####################################################################################################################################################################################");
     const userToken = req.cookies.usertoken;
     if (userToken === null) {
         res.status(400).json({ msg: "Not logged in!" });
@@ -83,41 +69,3 @@ module.exports.getAll = async(req, res) => {
     
     res.json(users);
 }
-
-// module.exports.register = (request, response) => {
-//     User.create(req.body)
-//     .then(user => {
-//         res.json({ msg: "success!", user: user });
-//     })
-//     .catch(err => res.json(err));
-// }
-
-// module.exports.create_HERE = (request, response) => {
-//     const { ATTRIBUTES_HERE } = request.body;
-//     MODEL_HERE.create({ ATTRIBUTES_HERE })
-//         .then(_HERE => response.json(_HERE))
-//         .catch(err => response.status(400).json(err));
-// }
-
-// module.exports.all_HERE = (request, response) => {
-//     MODEL_HERE.find({})
-//         .then(_HERE => response.json(_HERE))
-//         .catch(err => response.status(400).json(err));
-// }
-// module.exports.one_HERE = (request, response) => {
-//     MODEL_HERE.findOne({_id:request.params.id})
-//         .then(_HERE => response.json(_HERE))
-//         .catch(err => response.status(400).json(err));
-// }
-
-// module.exports.Update_HERE = (request, response) => {
-//     MODEL_HERE.updateOne({_id: request.params.id}, request.body, {new: true, runValidators: true})
-//         .then(updated => response.json(updated))
-//         .catch(err => response.status(400).json(err));
-// }
-
-// module.exports.delete_HERE = (request, response) => {
-//     MODEL_HERE.findOneAndDelete({_id: request.params.id})
-//         .then(deleted => response.json(deleted))
-//         .catch(err => response.status(400).json(err));
-// }

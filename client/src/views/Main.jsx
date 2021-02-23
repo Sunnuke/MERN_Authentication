@@ -14,22 +14,19 @@ export default () => {
     const [ login, setLogin ] = useState(false);
     const [ log, setLog ] = useState(false);
     const [ inputForm, setInputForm ] = useState(true);
-    // console.log("User:");
-    // console.log(user);
-    // console.log("Users:");
-    // console.log(users);
-    // if (login) {
-        useEffect(()=>{
-            axios.get('http://localhost:8000/api/users', { withCredentials: true })
-                .then(res=>{
-                    console.log("Getting All Response:");
-                    console.log(res.data);
-                    setUsers(res.data);
-                    setLoaded(true);
-                    navigate("/");
-                });
-        },[])
-    // }
+
+    // User List Request
+    useEffect(()=>{
+        axios.get('http://localhost:8000/api/users', { withCredentials: true })
+            .then(res=>{
+                console.log("Getting All Response:");
+                console.log(res.data);
+                setUsers(res.data);
+                setLoaded(true);
+                navigate("/");
+            });
+    },[])
+
     useEffect(() => {
         axios.get("http://localhost:8000/api")
             .then(res => setMessage(res.data.message))
