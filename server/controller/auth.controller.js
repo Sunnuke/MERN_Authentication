@@ -19,7 +19,8 @@ module.exports.register = (req, res) => {
             }, process.env.SECRET_KEY);
             res
                 .cookie("usertoken", userToken, {
-                    httpOnly: true
+                    httpOnly: true,
+                    path:'/'
                 })
                 .json({ msg: "success!", user: user });
         })
@@ -49,21 +50,23 @@ module.exports.login = async(req, res) => {
     }, process.env.SECRET_KEY);
     // note: chained calls to cookie and json
     res
-        .cookie("usertoken", userToken, {
-            httpOnly: true
-        })
+        .cookie("usertoken", userToken, {httpOnly: true, path:'/'})
         .json({ msg: "success!", user: user });
 }
 
 module.exports.logout = (req, res) => {
-    res.clearCookie('usertoken');
+    // res.clearCookie('usertoken');
+    // res.cookie('usertoken', null, {httpOnly: true});
+    res.clearCookie('usertoken', {path:'/'})
+    console.log("LOGOUT:")
+    console.log(res.cookie('usertoken'))
     res.sendStatus(200);
 }
 
 module.exports.getAll = async(req, res) => {
     const userToken = req.cookies.usertoken;
     if (userToken === null) {
-        res.status(400).json({ msg: "Not logged in!" });
+        res.status(400).json({ msg: "Loading users... (must login to view list)" });
     }
     const users = await User.find({});
     
