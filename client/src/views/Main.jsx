@@ -8,28 +8,41 @@ export default () => {
     const [message, setMessage] = useState("Connecting...");
     const [user, setUser] = useState({});
     const [users, setUsers] = useState([]);
-    const [loaded, setLoaded] = useState(false);
-    const [ load, setLoad ] = useState(false);
+    const [loaded, setLoaded] = useState(true);
+    const [ sync, setSync ] = useState(false);
     const [ errors, setErrors ] = useState([]);
     const [ login, setLogin ] = useState(false);
     const [ log, setLog ] = useState(false);
     const [ inputForm, setInputForm ] = useState(true);
-
+    
     // User List Request
-    useEffect(()=>{
+    const allUsers = () => {
+    // useEffect(()=>{  
         axios.get('http://localhost:8000/api/users', { withCredentials: true })
-            .then(res=>{
+            .then(res=>{ 
                 console.log("Getting All Response:");
                 console.log(res.data);
                 setUsers(res.data);
                 setLoaded(true);
-                navigate("/");
+            })
+            .catch(err => {
+                console.log(err);
+                // setUsers();
             });
-    },[])
+    // },[])
+    }
+    
+    if (sync == false) {
+        setSync(true);
+        allUsers();
+    }
 
     useEffect(() => {
         axios.get("http://localhost:8000/api")
-            .then(res => setMessage(res.data.message))
+            .then(res => {
+                setMessage(res.data.message);
+                // allUsers();
+            })
     }, []);
 
     const createUser = (user) => {
@@ -70,9 +83,10 @@ export default () => {
                 setUser(res.data);
                 setLogin(true);
                 setErrors([]);
+                allUsers();
                 setInputForm(!inputForm)
                 setUsers([...users, user]);
-                navigate("/");
+                setLoaded(true);
             })
             .catch(err => {
                 console.log("F HERE");
@@ -84,7 +98,6 @@ export default () => {
                 }
                 // Set Errors
                 setErrors(errorArr);
-                setLoad(true);
             });
     }
 
@@ -112,8 +125,9 @@ export default () => {
                 setUser(res.data);
                 setLogin(true);
                 setErrors([]);
+                allUsers();
                 setInputForm(!inputForm)
-                navigate("/");
+                setLoaded(true);
             })
             .catch(err => {
                 console.log(err.response);
@@ -125,14 +139,16 @@ export default () => {
 
     const loggingOut = () => {
         setUser({});
+        setUsers([]);
         setLogin(false);
+        setLoaded(false);
         setErrors([]);
         setInputForm(!inputForm)
         axios.get("http://localhost:8000/api/logout")
             .then(res => {
                 console.log("Logging Out:");
                 console.log(res);
-                navigate("/");
+                setSync(false);
             })
     }
 
@@ -183,11 +199,11 @@ export default () => {
                 ''
             }
             <hr/>
-            {
-                loaded ?
-                <ItemList items={users} removingDOM={removingDOM}/> :
-                'Loading users... (must login to view list)'
-            }
+            {/* { */}
+                {/* loaded ? */}
+                <ItemList items={users} removingDOM={removingDOM}/>
+                {/* 'Loading users... (must login to view list)' */}
+            {/* } */}
         </>
     )
 }

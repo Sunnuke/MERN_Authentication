@@ -72,3 +72,4 @@ module.exports.getAll = async(req, res) => {
     
     res.json(users);
 }
+
